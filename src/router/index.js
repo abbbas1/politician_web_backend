@@ -5,6 +5,7 @@ import PollingStationRouter from "./ConstituencyRouter/PollingStationRoute.js";
 import AdminRouter from "./AdminRouter/AdminRoute.js";
 import EventsRouter from "./EventsRouter/EventsRoute.js";
 import NewsRouter from "./News/NewsRouter.js";
+import SocialActivityRouter from "./SocialActivityRouter/SocialActivityRoute.js";
 
 const allRoutes = Router();
 
@@ -14,6 +15,7 @@ allRoutes.use("/constituency", ConstituencyRouter);
 allRoutes.use("/pollingStation", PollingStationRouter);
 allRoutes.use("/event", EventsRouter);
 allRoutes.use("/news", NewsRouter);
+allRoutes.use("/socialActivity", SocialActivityRouter);
 
 
 export default allRoutes;

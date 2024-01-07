@@ -3,7 +3,7 @@ import sequelize from "../../db/config.js";
 
 
 const SocialCommmentModel = sequelize.define("activitycomment",{
-    totalComments:{
+    Comment:{
         type:DataTypes.STRING,
         allowNull:false
     }

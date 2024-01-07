@@ -1,4 +1,8 @@
+# .gitignore
 
+# Ignore .env file
 .env
+
+# Ignore package.json file
+package-lock.json
 package.json
-package_lock.json

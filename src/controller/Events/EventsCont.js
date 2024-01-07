@@ -3,20 +3,22 @@ import EventsModel from "../../model/Events/Events.js";
 const EventsController = {
   AddEvent: async (req, res) => {
     try {
-      const{eventTittle, eventDescription, eventPicture, eventDate}=req.body;
+      const{eventTittle, eventDescription, eventDate}=req.body;
+      const{path}=req.file
       await EventsModel.create({
         eventTittle,
         eventDescription,
-        eventPicture,
+        eventPicture:path,
         eventDate,
         adminId: req.session.admin.id,
-        memberId: req.session.member.id,
+        memberId: req.session.member.id
       });
       res.status(200).json({ message: "Event added" });
     } catch (error) {
       res
-        .status(404)
+      .status(404)
         .json({ message: "Something bad happened in Event addition", error });
+        // console.log(error);
     }
   },
   delete: async (req, res) => {

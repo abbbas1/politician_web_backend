@@ -1,16 +1,20 @@
 import MemberModel from "../../model/Member/Member.js";
+import EventsModel from "../../model/Events/Events.js";
+import NewsModel from "../../model/News/News.js";
+import NewsCommmentModel from "../../model/News/NewsComment.js";
+import SocialActivityModel from "../../model/Social_Activity/Social_Activity.js";
+import SocialCommmentModel from "../../model/Social_Activity/Comment.js";
 import Jwt from "jsonwebtoken";
 import { hash, compare } from "bcrypt";
-import EventsModel from "../../model/Events/Events.js";
 
 const MemberController = {
   Register: async (req, res) => {
     try {
+      const{path}=req.file
       const {
         memberName,
         memberEmail,
         password,
-        memberPicture,
         memberPhoneNumber,
         memberAddress,
         memberCnic,
@@ -32,7 +36,7 @@ const MemberController = {
         memberName,
         memberEmail,
         password: hPassword,
-        memberPicture,
+        memberPicture:path,
         memberPhoneNumber,
         memberAddress,
         memberCnic,
@@ -133,8 +137,12 @@ const MemberController = {
   getAll: async (req, res) => {
     try {
       const Members = await MemberModel.findAll({
-        include: [EventsModel],
-      });
+        include: [
+          {model: EventsModel },
+          {model:NewsModel, include: [NewsCommmentModel] },
+          {model: SocialActivityModel, include: [SocialCommmentModel] },
+        ],  
+       });
       res.json({ Members });
     } catch (error) {
       res
@@ -147,8 +155,12 @@ const MemberController = {
     try {
       const Member = await MemberModel.findOne({
         where: { id },
-        include: [EventsModel],
-      });
+        include: [
+          {model: EventsModel },
+          { model:NewsModel, include: [NewsCommmentModel] },
+          {model: SocialActivityModel, include: [SocialCommmentModel] },
+        ],
+         });
       res.status(200).json({ message: "Member Found", Member });
     } catch (error) {
       res

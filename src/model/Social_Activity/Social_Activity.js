@@ -16,6 +16,11 @@ const SocialActivityModel = sequelize.define("socialActivity", {
     type:DataTypes.STRING,
     allowNull:false
   },
+  totalLikes:{
+    type:DataTypes.INTEGER,
+    allowNull:false,
+    defaultValue: 0
+  }
 });
 
 

@@ -6,9 +6,14 @@ import allRoutes from "./router/index.js";
 // import AuthenticateMiddleware from "./middleware/authenticate.js";
 import sequelize, { connectdb } from "./db/config.js";
 import initdb from "./db/init.js";
+import upload from "./middleware/multer/multerConfig.js";
 const app = express();
 app.use(express.json());
 connectdb();
+
+app.post("/image",upload.single("image"),(req,res)=>{
+  res.json(req.file)
+})
 
 const envdata = process.env;
 
@@ -16,7 +21,7 @@ const mySequelizeStore = SequelizeStore(Session.Store);
 const mySequelizeStore1 = new mySequelizeStore({
   db: sequelize,
 });
-console
+console;
 app.use(
   Session({
     secret: envdata.SESSION_SECRET,
@@ -24,8 +29,8 @@ app.use(
     saveUninitialized: false,
     resave: true,
     proxy: false,
-  }),
-  );
+  })
+);
 mySequelizeStore1.sync();
 initdb()
   .then(() => console.log("db is sync"))

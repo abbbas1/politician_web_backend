@@ -4,12 +4,13 @@ import NewsCommmentModel from "../../model/News/NewsComment.js";
 const NewsController = {
     NewsUpload:async(req,res)=>{
         try {
-            const{newsTittle,newsContent,newsPicture}=req.body
+            const{newsTittle,newsContent}=req.body
+            const{path}=req.file
             const news = await NewsModel.create({
                 newsTittle,
                 newsContent,
-                newsPicture,
-                adminId: req.session.admin.id,
+                newsPicture:path,
+                adminId: req.session.admin.id,  
                 memberId: req.session.member.id,
             }) 
             res.status(200).json({message:"News uploaded",news})
@@ -72,7 +73,9 @@ const NewsController = {
     },
     getAllNews:async(req,res)=>{
         try {
-            const news = await NewsModel.findAll({})
+            const news = await NewsModel.findAll({
+                include:[NewsCommmentModel]
+            })
             res.status(200).json({message:"All news found",news})
         } catch (error) {
             res.status(404).json({message:"Something bad happened in fetching all news.",error})

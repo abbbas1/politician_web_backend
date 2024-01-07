@@ -1,16 +1,20 @@
 import AdminModel from "../../model/Admin/Admin.js";
 import EventsModel from "../../model/Events/Events.js";
+import NewsModel from "../../model/News/News.js";
+import NewsCommmentModel from "../../model/News/NewsComment.js";
+import SocialActivityModel from "../../model/Social_Activity/Social_Activity.js";
+import SocialCommmentModel from "../../model/Social_Activity/Comment.js";
 import Jwt from "jsonwebtoken";
 import { hash, compare } from "bcrypt";
 
 const AdminContoller = {
   Register: async (req, res) => {
+    const {path}=req.file
     try {
       const {
         adminName,
         adminEmail,
         password,
-        adminPicture,
         adminPhoneNumber,
         adminAddress,
         adminCnic,
@@ -30,7 +34,7 @@ const AdminContoller = {
         adminName,
         adminEmail,
         password: hPassword,
-        adminPicture,
+        adminPicture:path,
         adminPhoneNumber,
         adminAddress,
         adminCnic,
@@ -128,28 +132,23 @@ const AdminContoller = {
         .json({ message: "Something bad happened in login.", err });
     }
   },
-  getAll:async(req,res)=>{
-   try{
-    const admins = await AdminModel.findAll({
-      include:[EventsModel]
-    })
-   res.json({admins})
-  }catch(error){
-    res.status(400).json({message:"something bad happened in fetching admins"})
-  }
-  },
-  getOnlyOne:async(req,res)=>{
-    const{id}=req.params
+  getAll: async (req, res) => {
     try {
-      const admin = await AdminModel.findOne({
-        where:{id},
-        include:[EventsModel]
-      })
-     res.status(200).json({message:"admin Found",admin})
+      const admins = await AdminModel.findAll({
+        include: [
+          {model: EventsModel },
+          { model:NewsModel, include: [NewsCommmentModel] },
+          {model: SocialActivityModel, include: [SocialCommmentModel] },
+        ],
+      });
+      res.json({ admins });
     } catch (error) {
-      res.status(404).json({message:"something bad happened in admin find",error})
+      res
+        .status(400)
+        .json({ message: "something bad happened in fetching admins" });
+      console.log(error);
     }
-   }
+  },
 };
 
 export default AdminContoller;
