@@ -8,3 +8,6 @@ package-lock.json
 
 # package.json file
 package.json
+
+# dependencies
+ node_modules
