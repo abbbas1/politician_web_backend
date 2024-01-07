@@ -3,6 +3,8 @@
 # Ignore .env file
 .env
 
-# Ignore package.json file
+# Ignore package-lock.json file
 package-lock.json
+
+# package.json file
 package.json
