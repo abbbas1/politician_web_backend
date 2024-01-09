@@ -1,4 +1,5 @@
 import "dotenv/config";
+import cors from "cors"
 import Session from "express-session";
 import SequelizeStore from "connect-session-sequelize";
 import express from "express";
@@ -11,9 +12,17 @@ const app = express();
 app.use(express.json());
 connectdb();
 
-app.post("/image",upload.single("image"),(req,res)=>{
-  res.json(req.file)
+
+// app.post("/image",upload.single("image"),(req,res)=>{
+//   res.json(req.file)
+// })
+const CorsInstance = new cors({
+  origin:["http://localhost:5173/"],
+  methods:"POST,GET,PUT,DELETE",
+  credentials:true
 })
+
+app.use(CorsInstance)
 
 const envdata = process.env;
 
@@ -26,9 +35,9 @@ app.use(
   Session({
     secret: envdata.SESSION_SECRET,
     store: mySequelizeStore1,
-    saveUninitialized: false,
-    resave: true,
-    proxy: false,
+    saveUninitialized: true,
+    resave: false,
+    proxy: true,
   })
 );
 mySequelizeStore1.sync();
