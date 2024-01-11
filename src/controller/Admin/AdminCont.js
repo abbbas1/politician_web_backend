@@ -9,7 +9,7 @@ import { hash, compare } from "bcrypt";
 
 const AdminContoller = {
   Register: async (req, res) => {
-    const {path}=req.file
+    const { path } = req.file;
     try {
       const {
         adminName,
@@ -34,7 +34,7 @@ const AdminContoller = {
         adminName,
         adminEmail,
         password: hPassword,
-        adminPicture:path,
+        adminPicture: path,
         adminPhoneNumber,
         adminAddress,
         adminCnic,
@@ -107,11 +107,11 @@ const AdminContoller = {
         },
       });
       if (!Admin) {
-        res.status(400).json({ message: "invalid Email" });
+        return res.status(400).json({ message: "invalid Email" });
       }
       const ComparePassword = await compare(password, Admin.password);
       if (!ComparePassword) {
-        res.status(400).json({ message: "invalid Password" });
+        return res.status(400).json({ message: "invalid Password" });
       }
       const Data = {
         id: Admin.id,
@@ -127,19 +127,18 @@ const AdminContoller = {
       req.session.save();
       return res.status(200).json({ message: "Loged in succesfully" });
     } catch (err) {
-      res
+      return res
         .status(404)
         .json({ message: "Something bad happened in login.", err });
-        console.log(err);
     }
   },
   getAll: async (req, res) => {
     try {
       const admins = await AdminModel.findAll({
         include: [
-          {model: EventsModel },
-          { model:NewsModel, include: [NewsCommmentModel] },
-          {model: SocialActivityModel, include: [SocialCommmentModel] },
+          { model: EventsModel },
+          { model: NewsModel, include: [NewsCommmentModel] },
+          { model: SocialActivityModel, include: [SocialCommmentModel] },
         ],
       });
       res.json({ admins });
