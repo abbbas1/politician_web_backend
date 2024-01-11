@@ -1,7 +1,6 @@
 import { Router } from "express";
 import MemberController from "../../controller/Member/MemberCont.js";
 import MemberValidator from "../../validator/MemberValidator.js";
-import MemberAuthentication from "../../middleware/MemberAuthentication.js";
 
 const MemberRouter = Router();
 

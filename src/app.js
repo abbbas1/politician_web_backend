@@ -4,21 +4,14 @@ import Session from "express-session";
 import SequelizeStore from "connect-session-sequelize";
 import express from "express";
 import allRoutes from "./router/index.js";
-// import AuthenticateMiddleware from "./middleware/authenticate.js";
 import sequelize, { connectdb } from "./db/config.js";
 import initdb from "./db/init.js";
-import upload from "./middleware/multer/multerConfig.js";
 const app = express();
 app.use(express.json());
 connectdb();
 
-
-// app.post("/image",upload.single("image"),(req,res)=>{
-//   res.json(req.file)
-// })
 const CorsInstance = new cors({
-  origin:["http://localhost:5173/"],
-  methods:"POST,GET,PUT,DELETE",
+  origin:["http://localhost:5173"],
   credentials:true
 })
 
@@ -46,11 +39,6 @@ initdb()
   .catch((err) => console.log("error in db" + err));
 app.use("/", allRoutes);
 
-// app.post("/", AuthenticateMiddleware, (req, res) => {
-//     return res.json({
-//         message: "Hello world1",
-//     });
-//   });
 
 app.listen(envdata.PORT, (err) => {
   if (err) {

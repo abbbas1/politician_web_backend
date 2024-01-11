@@ -130,6 +130,7 @@ const AdminContoller = {
       res
         .status(404)
         .json({ message: "Something bad happened in login.", err });
+        console.log(err);
     }
   },
   getAll: async (req, res) => {

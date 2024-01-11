@@ -100,7 +100,7 @@ const MemberController = {
         .json({ message: "something bad happened in Member Updation." });
     }
   },
-  login: async (req, res) => {
+   login : async (req, res) => {
     try {
       const { memberEmail, password } = req.body;
       const Member = await MemberModel.findOne({
@@ -108,32 +108,38 @@ const MemberController = {
           memberEmail,
         },
       });
+  
       if (!Member) {
-        res.status(400).json({ message: "invalid Email" });
+        return res.status(400).json({ message: "Invalid Email" });
       }
-      const ComparePassword = await compare(password, Member.password);
-      if (!ComparePassword) {
-        res.status(400).json({ message: "invalid Password" });
+  
+      const comparePassword = await compare(password, Member.password);
+  
+      if (!comparePassword) {
+        return res.status(400).json({ message: "Invalid Password" });
       }
-      const Data = {
+  
+      const data = {
         id: Member.id,
         email: Member.memberEmail,
         test: "test",
       };
-      const token = Jwt.sign(Data, process.env.JWT_SECRET, {
+  
+      const token = Jwt.sign(data, process.env.JWT_SECRET, {
         expiresIn: "10d",
       });
-      // console.log(token)
+  
       req.session.membertoken = token;
       req.session.member = Member;
       req.session.save();
-      return res.status(200).json({ message: "Loged in succesfully" });
+  
+      return res.status(200).json({ message: "Logged in successfully" });
     } catch (err) {
-      res
-        .status(404)
-        .json({ message: "Something bad happened in login.", err });
+      console.error(err);
+      return res.status(500).json({ message: "Something bad happened in login." });
     }
   },
+  
   getAll: async (req, res) => {
     try {
       const Members = await MemberModel.findAll({
