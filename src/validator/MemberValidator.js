@@ -8,7 +8,7 @@ const MemberValidator={
             memberName:Joi.string().min(2).max(50).required(),
             memberEmail:Joi.string().email().min(2).max(50).required(),
             password:Joi.string().min(2).max(50).required(),
-            memberPicture:Joi.string().min(2).max(50).required(),
+            // memberPicture:Joi.string().min(2).max(50).required(),
             memberPhoneNumber:Joi.string().min(2).max(50).required(),
             memberAddress:Joi.string().min(2).max(50).required(),
             memberCnic:Joi.string().min(13).max(15).required()

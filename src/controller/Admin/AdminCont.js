@@ -146,7 +146,7 @@ const AdminContoller = {
       res
         .status(400)
         .json({ message: "something bad happened in fetching admins" });
-      console.log(error);
+      // console.log(error);
     }
   },
 };

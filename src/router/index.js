@@ -13,7 +13,7 @@ allRoutes.use("/admin", AdminRouter);
 allRoutes.use("/member", MemberRouter);
 allRoutes.use("/constituency", ConstituencyRouter);
 allRoutes.use("/pollingStation", PollingStationRouter);
-allRoutes.use("/event", EventsRouter);
+allRoutes.use("/events", EventsRouter);
 allRoutes.use("/news", NewsRouter);
 allRoutes.use("/socialActivity", SocialActivityRouter);
 

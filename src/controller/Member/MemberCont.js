@@ -25,7 +25,7 @@ const MemberController = {
         },
       });
       if (member) {
-        res
+       return res
           .status(400)
           .json({
             message: `${memberEmail} is already exist try another one.`,
@@ -41,9 +41,9 @@ const MemberController = {
         memberAddress,
         memberCnic,
       });
-      res.json({ message: "Member Registered" });
+     return res.json({ message: "Member Registered" });
     } catch (err) {
-      res.status(400).json({
+     return res.status(400).json({
         message: "SOmething bad happening in Member Registration." + err,
       });
     }
@@ -133,7 +133,7 @@ const MemberController = {
       req.session.member = Member;
       req.session.save();
   
-      return res.status(200).json({ message: "Logged in successfully" });
+      return res.status(200).json({ message: "Logged in successfully",Member});
     } catch (err) {
       console.error(err);
       return res.status(500).json({ message: "Something bad happened in login." });
